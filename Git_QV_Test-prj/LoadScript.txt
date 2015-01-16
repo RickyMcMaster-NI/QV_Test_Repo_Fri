@@ -1,0 +1,57 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='£#,##0.00;-£#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD-MM-YYYY';
+SET TimestampFormat='DD-MM-YYYY hh:mm:ss[.fff]';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Data
+Sales:
+LOAD custId, 
+     custName, 
+     custCountry as Country, 
+     productSold as productId, 
+     salesChannel, 
+     unitsSold, 
+     dateSold,
+     Month(dateSold) as SaleMonth,
+     Year(dateSold) as SaleYear
+FROM
+[sample-sales-data.xls]
+(biff, embedded labels, table is [Sales Data$]);
+
+Products:
+LOAD productId, 
+     productName, 
+     stdCost, 
+     stdPrice
+FROM
+[sample-sales-data.xls]
+(biff, embedded labels, table is [Product Ledger$]);
+
+Countries:
+LOAD @1 as Country, 
+     @2 as Region
+FROM
+[sample-sales-data.xls]
+(biff, no labels, table is [Country Groupings$]);
+
+
+///$tab Data2
+//Directory;
+//LOAD custId, 
+//     custName, 
+//     custCountry, 
+//     productSold, 
+//     salesChannel, 
+//     unitsSold, 
+//     dateSold
+//FROM
+//[sample-sales-data.xls]
+//(biff, embedded labels, table is [Sales Data$]);
+//
